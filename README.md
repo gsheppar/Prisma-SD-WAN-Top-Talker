@@ -19,7 +19,7 @@ MIT
  1. ./top_talkers.py --name "Home-Office"
       - Will get the top talkers for Home-Office site for the the past hour
 
- 2. ./top_talkers.py --name Home-Office --detailed
+ 2. ./top_talkers.py --name "Home-Office" --detailed
       - Will get the top talkers for Home-Office site for the the past hour using a more detailed collection
 
  3. ./top_talkers.py --name "Home-Office" --time "2023-02-10 17:00:00.0"
