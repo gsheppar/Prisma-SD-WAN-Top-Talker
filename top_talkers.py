@@ -63,9 +63,14 @@ def top_talker(cgx, site_name, time_check, detailed):
     
     top_talkers = {}
     if time_check:
-        end = datetime.strptime(time_check, '%Y-%m-%d  %H:%M:%S.%f')
-        end = end + timedelta(microseconds=10)
-        start_check = end - timedelta(minutes=60)
+        try:
+            end = datetime.strptime(time_check, '%Y-%m-%d  %H:%M:%S.%f')
+            end = end + timedelta(microseconds=10)
+            start_check = end - timedelta(minutes=60)
+        except Exception as e:
+            print("Failed converting the provided time value")
+            print(str(e))
+            return
     else:
         end = datetime.utcnow()
         start_check = end - timedelta(minutes=60)
@@ -83,6 +88,10 @@ def top_talker(cgx, site_name, time_check, detailed):
         start_time = start.isoformat()[:-3]+'Z'
         data = {"start_time":start_time,"end_time":end_time,"filter":{"site":[site_id]},"debug_level":"all"}
         resp = cgx.post.monitor_flows(data).cgx_content['flows']
+        if not resp:
+            print("Error on grabbing flows")
+            print(str(jdout(resp))) 
+            return
         flows = resp['items']
         for flow in flows:
             source_ip = flow["source_ip"]
